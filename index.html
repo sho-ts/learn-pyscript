@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PYSCRIPT</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+  <link rel="stylesheet" href="style.css">
+  <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+</head>
+
+<body>
+  <py-script>
+    class App:
+      app_container_dom = Element('py-app-container')
+      add_button_dom = Element('py-add-button')
+      text_field_dom = Element('py-text-field')
+      memo_list_dom = Element('py-memo-list')
+      memos = []
+
+      def __init__(self):
+        self.add_button_dom.element.onclick = self.add
+        self.app_container_dom.element.style.display = 'block'
+
+      def add(self, e):
+        if self.text_field_dom.element.value == "":
+          return
+
+        self.memos.append(self.text_field_dom.element.value)
+        self.render()
+
+      def delete(self, i):
+        print(i)
+
+      def render(self):
+        inner_html = ''
+
+        for index, memo in enumerate(self.memos):
+          inner_html = f'{inner_html}<li class="memo-item"><div class="memo-item__inner">{memo}</div></li>'
+
+        self.memo_list_dom.element.innerHTML = inner_html
+        self.text_field_dom.element.value = ''
+
+    app = App()
+  </py-script>
+  <div id="py-app-container" class="app-container" style="display: none">
+    <h1 class="title">PYSCRIPT</h1>
+    <div class="form">
+      <input id="py-text-field" class="form__textfield" type="text" />
+      <button id="py-add-button" class="form__button">Add</button>
+    </div>
+    <ul id="py-memo-list" class="memo-list"></ul>
+  </div>
+</body>
+
+</html>
